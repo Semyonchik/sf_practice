@@ -6,7 +6,7 @@ MACHINES = {
   :SQLsrv => {
     :box_name => "ubuntu/bionic64",
     :net => [
-               {ip: '192.168.6.2', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "net"},
+               {ip: '192.168.6.3', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "net"},
 
             ]
   }, 
