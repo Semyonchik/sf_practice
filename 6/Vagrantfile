@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
           box.vm.network "public_network", boxconfig[:public]
         end
 
-        box.vm.provision "file", source: "/home/devops/projects/emptyfile", destination: "/home/vagrant/scripts/emptyfile"
+        box.vm.provision "file", source: "~/emptyfile", destination: "/home/vagrant/scripts/emptyfile"
 
         box.vm.provision :shell, path: "install.sh"
       end
