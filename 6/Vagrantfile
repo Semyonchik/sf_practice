@@ -1,0 +1,44 @@
+# -*- mode: ruby -*-
+# vim: set ft=ruby :
+
+MACHINES = {
+
+  :SQLsrv => {
+    :box_name => "ubuntu/bionic64",
+    :net => [
+               {ip: '192.168.6.3', adapter: 2, netmask: "255.255.255.0", virtualbox__intnet: "net"},
+
+            ]
+  }, 
+}
+
+Vagrant.configure("2") do |config|
+
+  MACHINES.each do |boxname, boxconfig|
+
+    config.vm.define boxname do |box|
+
+        box.vm.box = boxconfig[:box_name]
+        box.vm.host_name = boxname.to_s
+
+        config.vm.provider "virtualbox" do |v|
+          v.memory = 1024
+        end
+
+        boxconfig[:net].each do |ipconf|
+          box.vm.network "private_network", ipconf
+        end
+
+        if boxconfig.key?(:public)
+          box.vm.network "public_network", boxconfig[:public]
+        end
+
+        box.vm.provision "file", source: "/home/devops/projects/emptyfile", destination: "/home/vagrant/scripts/emptyfile"
+
+        box.vm.provision :shell, path: "install.sh"
+      end
+
+  end
+
+
+end
